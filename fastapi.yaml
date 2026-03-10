@@ -1,0 +1,75 @@
+name: fastapi
+description: "Template progetto FastAPI base"
+
+root_dir: "{{ project_slug }}"
+
+dirs:
+  - "{{ project_slug }}/src"
+  - "{{ project_slug }}/tests"
+  - "{{ project_slug }}/.github/workflows"
+
+files:
+  - path: "{{ project_slug }}/README.md"
+    template: |
+      # {{ project_display_name }}
+
+      {{ description }}
+
+      Questo progetto è stato generato automaticamente dal workflow n8n.
+      Stack: FastAPI
+
+      ## Getting started
+
+      ```bash
+      uvicorn src.main:app --reload
+      ```
+
+  - path: "{{ project_slug }}/pyproject.toml"
+    template: |
+      [project]
+      name = "{{ project_slug }}"
+      version = "0.1.0"
+      description = "{{ description }}"
+      authors = ["{{ tech_lead_name }} <{{ tech_lead_email }}>"]
+      requires-python = ">=3.11"
+
+      [project.dependencies]
+      fastapi = "^0.115.0"
+      uvicorn = {extras = ["standard"], version = "^0.30.0"}
+
+  - path: "{{ project_slug }}/src/main.py"
+    template: |
+      from fastapi import FastAPI
+
+      app = FastAPI(title="{{ project_display_name }}")
+
+      @app.get("/health")
+      def health():
+          return {"status": "ok", "service": "{{ project_slug }}"}
+
+  - path: "{{ project_slug }}/.github/workflows/ci.yml"
+    template: |
+      name: CI
+
+      on:
+        push:
+          branches: [ "main" ]
+        pull_request:
+
+      jobs:
+        test:
+          runs-on: ubuntu-latest
+          steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                python-version: "3.11"
+            - name: Install deps
+              run: pip install fastapi uvicorn
+            - name: Run dummy tests
+              run: echo "No tests yet for {{ project_slug }}"
+
+  - path: "{{ project_slug }}/tests/test_health.py"
+    template: |
+      def test_placeholder():
+          assert True, "Add real tests for {{ project_slug }}"
