@@ -1,0 +1,60 @@
+name: flask
+description: "Template progetto Flask base"
+
+root_dir: "{{ project_slug }}"
+
+dirs:
+  - "{{ project_slug }}/app"
+  - "{{ project_slug }}/tests"
+  - "{{ project_slug }}/.github/workflows"
+
+files:
+  - path: "{{ project_slug }}/README.md"
+    template: |
+      # {{ project_display_name }}
+
+      {{ description }}
+
+      Stack: Flask
+
+      ## Getting started
+
+      ```bash
+      pip install -r requirements.txt
+      flask run
+      ```
+
+  - path: "{{ project_slug }}/requirements.txt"
+    template: |
+      Flask==3.0.0
+      python-dotenv==1.0.0
+
+  - path: "{{ project_slug }}/app/__init__.py"
+    template: |
+      from flask import Flask
+
+      app = Flask(__name__)
+
+      @app.route("/health")
+      def health():
+          return {"status": "ok", "service": "{{ project_slug }}"}
+
+  - path: "{{ project_slug }}/.github/workflows/ci.yml"
+    template: |
+      name: CI
+
+      on:
+        push:
+          branches: [ "main" ]
+        pull_request:
+
+      jobs:
+        test:
+          runs-on: ubuntu-latest
+          steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                python-version: "3.11"
+            - run: pip install -r requirements.txt
+            - run: echo "No tests yet for {{ project_slug }}"

@@ -1,0 +1,81 @@
+name: django
+description: "Template progetto Django base"
+
+root_dir: "{{ project_slug }}"
+
+dirs:
+  - "{{ project_slug }}/{{ project_slug }}"
+  - "{{ project_slug }}/{{ project_slug }}/core"
+  - "{{ project_slug }}/tests"
+
+files:
+  - path: "{{ project_slug }}/README.md"
+    template: |
+      # {{ project_display_name }}
+
+      {{ description }}
+
+      Stack: Django
+
+      ## Getting started
+
+      ```bash
+      python manage.py migrate
+      python manage.py runserver
+      ```
+
+  - path: "{{ project_slug }}/manage.py"
+    template: |
+      #!/usr/bin/env python
+      import os
+      import sys
+
+      if __name__ == "__main__":
+          os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ project_slug }}.settings")
+          from django.core.management import execute_from_command_line
+          execute_from_command_line(sys.argv)
+
+  - path: "{{ project_slug }}/{{ project_slug }}/__init__.py"
+    template: ""
+
+  - path: "{{ project_slug }}/{{ project_slug }}/settings.py"
+    template: |
+      import os
+      from pathlib import Path
+
+      BASE_DIR = Path(__file__).resolve().parent.parent
+
+      SECRET_KEY = "django-insecure-{{ project_slug }}-placeholder"
+      DEBUG = True
+
+      INSTALLED_APPS = [
+          "django.contrib.admin",
+          "django.contrib.auth",
+          "django.contrib.contenttypes",
+          "django.contrib.sessions",
+          "django.contrib.messages",
+          "django.contrib.staticfiles",
+      ]
+
+      ROOT_URLCONF = "{{ project_slug }}.urls"
+
+  - path: "{{ project_slug }}/{{ project_slug }}/urls.py"
+    template: |
+      from django.contrib import admin
+      from django.urls import path
+
+      urlpatterns = [
+          path("admin/", admin.site.urls),
+          path("health/", lambda request: {"status": "ok"}),
+      ]
+
+  - path: "{{ project_slug }}/{{ project_slug }}/core/views.py"
+    template: |
+      from django.http import JsonResponse
+
+      def health(request):
+          return JsonResponse({"status": "ok", "service": "{{ project_slug }}"}) 
+
+  - path: "{{ project_slug }}/requirements.txt"
+    template: |
+      Django==5.1.0
