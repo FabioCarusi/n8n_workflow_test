@@ -37,7 +37,7 @@ files:
       fastapi = "^0.115.0"
       uvicorn = {extras = ["standard"], version = "^0.30.0"}
 
-  - path: "/src/main.py"
+  - path: "src/main.py"
     template: |
       from fastapi import FastAPI
 
@@ -47,7 +47,7 @@ files:
       def health():
           return {"status": "ok", "service": "{{ project_slug }}"}
 
-  - path: "/.github/workflows/ci.yml"
+  - path: ".github/workflows/ci.yml"
     template: |
       name: CI
 
@@ -69,7 +69,7 @@ files:
             - name: Run dummy tests
               run: echo "No tests yet for {{ project_slug }}"
 
-  - path: "/tests/test_health.py"
+  - path: "tests/test_health.py"
     template: |
       def test_placeholder():
           assert True, "Add real tests for {{ project_slug }}"
