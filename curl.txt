@@ -1,0 +1,13 @@
+curl -X POST http://192.168.1.206:5678/webhook-test/new-project   -H "Content-Type: application/json"   -d '{
+    "project_slug": "n8n_test_fastapi",
+"project_name": "n8n_test_fastapi",
+    "project_display_name": "n8n_test_fastapi",
+    "description": "Test workflow n8n per creazione di template",
+    "framework": "fastapi",
+    "visibility": "private",
+    "owner_org": "FabioCarusi",
+    "team": [
+      { "role": "tech_lead", "github_username": "alice-dev", "email": "alice@example.com" },
+      { "role": "developer", "github_username": "bob-dev", "email": "bob@example.com" }
+    ]
+  }'

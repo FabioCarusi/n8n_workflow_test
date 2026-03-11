@@ -9,7 +9,7 @@ dirs:
   - "{{ project_slug }}/.github/workflows"
 
 files:
-  - path: "{{ project_slug }}/README.md"
+  - path: "README.md"
     template: |
       # {{ project_display_name }}
 
@@ -24,12 +24,12 @@ files:
       flask run
       ```
 
-  - path: "{{ project_slug }}/requirements.txt"
+  - path: "requirements.txt"
     template: |
       Flask==3.0.0
       python-dotenv==1.0.0
 
-  - path: "{{ project_slug }}/app/__init__.py"
+  - path: "app/__init__.py"
     template: |
       from flask import Flask
 
@@ -39,7 +39,7 @@ files:
       def health():
           return {"status": "ok", "service": "{{ project_slug }}"}
 
-  - path: "{{ project_slug }}/.github/workflows/ci.yml"
+  - path: ".github/workflows/ci.yml"
     template: |
       name: CI
 

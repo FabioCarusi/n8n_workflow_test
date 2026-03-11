@@ -9,7 +9,7 @@ dirs:
   - "{{ project_slug }}/tests"
 
 files:
-  - path: "{{ project_slug }}/README.md"
+  - path: "README.md"
     template: |
       # {{ project_display_name }}
 
@@ -24,7 +24,7 @@ files:
       python manage.py runserver
       ```
 
-  - path: "{{ project_slug }}/manage.py"
+  - path: "manage.py"
     template: |
       #!/usr/bin/env python
       import os
@@ -35,10 +35,10 @@ files:
           from django.core.management import execute_from_command_line
           execute_from_command_line(sys.argv)
 
-  - path: "{{ project_slug }}/{{ project_slug }}/__init__.py"
+  - path: "/__init__.py"
     template: ""
 
-  - path: "{{ project_slug }}/{{ project_slug }}/settings.py"
+  - path: "/settings.py"
     template: |
       import os
       from pathlib import Path
@@ -59,7 +59,7 @@ files:
 
       ROOT_URLCONF = "{{ project_slug }}.urls"
 
-  - path: "{{ project_slug }}/{{ project_slug }}/urls.py"
+  - path: "/urls.py"
     template: |
       from django.contrib import admin
       from django.urls import path
@@ -69,13 +69,13 @@ files:
           path("health/", lambda request: {"status": "ok"}),
       ]
 
-  - path: "{{ project_slug }}/{{ project_slug }}/core/views.py"
+  - path: "/core/views.py"
     template: |
       from django.http import JsonResponse
 
       def health(request):
           return JsonResponse({"status": "ok", "service": "{{ project_slug }}"}) 
 
-  - path: "{{ project_slug }}/requirements.txt"
+  - path: "requirements.txt"
     template: |
       Django==5.1.0
